@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MEAT Production</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=Inter:wght@400;600;700&family=Lobster&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* VOICE: свій хлопець з камери — коротко, з гумором, без пафосу
+   IDEA: видошукач камери на знімальному майданчику — REC-кути, таймкод, бирка-слейт
+   PICTURE: піксельний стейк на ланцюгу з паперовою биркою MEAT, що «глючить»
+   COLOUR and TYPE: чорний #0A0606, червоний REC #EB0403, папір #EAE5DC; Unbounded Black, Inter, Lobster-маркер, Plex Mono для міток
+   LAYOUT: чорні й паперові смуги чергуються на всю ширину, слайдери робіт, пакети, фінальний CTA */
+:root{--pad:max(16px,5vw,calc((100vw - 1240px)/2));color-scheme:dark;--blk:#0A0606;--red:#EB0403;--dred:#910102;--paper:#EAE5DC;--tag:#F1E7DE;--film:#8A8076;--card:#151010;--line:#2a2020}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--blk);color:var(--paper);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+a{color:inherit}
+h1,h2,h3{font-family:Unbounded,Inter,sans-serif;font-weight:900;text-transform:uppercase;line-height:1.05;margin:0;text-wrap:balance}
+p,li,.sub{text-wrap:pretty}
+h2{font-size:clamp(32px,5vw,52px)}
+.mono{font-family:"IBM Plex Mono",monospace;font-size:13px;letter-spacing:.04em;color:var(--film)}
+.mk{font-family:Lobster,cursive;color:var(--red);transform:rotate(-5deg);display:inline-block;font-size:clamp(28px,4vw,44px);line-height:1.1}
+.wrap{max-width:1240px;margin:0 auto;width:100%}
+.band{padding:clamp(56px,8vw,112px) var(--pad);position:relative}
+.paper{background:var(--paper);color:var(--blk)}.paper .mono{color:#6b625a}
+.paper .sub{color:#3b3430}
+.sub{color:#bdb4aa;max-width:62ch;font-size:17px}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+nav{position:fixed;inset:0 0 auto;z-index:50;display:flex;align-items:center;gap:20px;padding:12px var(--pad);background:rgba(10,6,6,.78);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo b{font-family:Unbounded;font-weight:900;font-size:22px;letter-spacing:-.02em}
+.logo i{font-style:normal;font-family:"IBM Plex Mono";font-size:10px;color:var(--film)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--red);animation:blink 1.2s steps(2) infinite}
+@keyframes blink{50%{opacity:.15}}
+.links{display:flex;gap:18px;margin-left:auto;flex-wrap:wrap}
+.links a{text-decoration:none;font-size:14px;color:#cfc6bc}.links a:hover{color:var(--red)}
+.lang{display:flex;border:1px solid #3a2e2e;border-radius:99px;padding:3px}
+.lang button{all:unset;cursor:pointer;font:600 13px Inter;padding:8px 12px;border-radius:99px;color:#cfc6bc;min-width:20px;text-align:center}
+.lang button[aria-pressed=true]{background:var(--red);color:#fff}
+.lang button:focus-visible,.btn:focus-visible,.arw:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border-radius:4px;font:700 15px Inter;text-decoration:none;cursor:pointer;border:0;transition:transform .2s,background .2s}
+.btn.red{background:var(--red);color:#fff}.btn.red:hover{background:var(--dred);transform:translateY(-2px)}
+.btn.ghost{border:1px solid #4a3c3c;color:var(--paper);background:none}.btn.ghost:hover{border-color:var(--red)}
+#tc{position:fixed;left:var(--pad);bottom:16px;z-index:40;background:rgba(10,6,6,.8);padding:6px 10px;border-radius:3px;color:var(--paper)}
+#tc span{color:var(--red)}
+.hero{overflow:hidden;min-height:100svh;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:4vw;padding-top:110px;background:radial-gradient(60% 70% at 75% 50%,#2a0505 0%,var(--blk) 70%)}
+.corners{position:absolute;inset:84px max(3vw,12px) 24px;pointer-events:none}
+.corners i{position:absolute;width:44px;height:44px;border:3px solid var(--red)}
+.corners i:nth-child(1){top:0;left:0;border-right:0;border-bottom:0}.corners i:nth-child(2){top:0;right:0;border-left:0;border-bottom:0}
+.corners i:nth-child(3){bottom:0;left:0;border-right:0;border-top:0}.corners i:nth-child(4){bottom:0;right:0;border-left:0;border-top:0}
+.wm{position:relative;display:inline-flex;align-items:flex-start;gap:6px;margin-top:14px;max-width:100%}
+.word{display:block;width:min(100%,500px);height:auto}
+.wm span{font:700 clamp(18px,2.4vw,30px)/1 Inter;color:var(--paper)}
+.logo img{display:block;height:24px;width:auto}
+.hero h1{font-size:clamp(30px,4.2vw,52px);margin:18px 0 14px}
+.hero .acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.steak{position:relative;aspect-ratio:1;max-width:560px;width:100%;justify-self:center}
+.steak svg{width:100%;height:100%;overflow:visible}
+.px{animation:gl 3s infinite}
+@keyframes gl{0%,92%,100%{transform:none}94%{transform:translate(6px,0)}96%{transform:translate(-4px,2px)}}
+.swing{transform-origin:50% 4%;animation:sw 6s ease-in-out infinite}
+@keyframes sw{50%{transform:rotate(3deg)}}
+.hm{position:absolute;left:-4%;bottom:2%;width:28%;animation:bob 3s ease-in-out infinite;filter:drop-shadow(0 10px 20px #000)}
+@keyframes bob{50%{transform:translateY(-10px) rotate(-3deg)}}
+.masc{display:block;height:auto;filter:drop-shadow(0 8px 14px rgba(0,0,0,.35));transition:transform .3s}
+.masc:hover{transform:rotate(-6deg) scale(1.08)}
+.mq{overflow:hidden;background:var(--red);color:#fff;padding:14px 0;border-block:2px solid var(--blk)}
+.mq div{display:flex;gap:48px;width:max-content;animation:mq 38s linear infinite;font:900 22px Unbounded;text-transform:uppercase;white-space:nowrap}
+.mq span::after{content:"✦";margin-left:48px}
+@keyframes mq{to{transform:translateX(-50%)}}
+.head{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:end;gap:16px 48px;margin-bottom:40px}
+.head>.sub{justify-self:end;max-width:560px;width:100%}
+.head .mono{margin-bottom:10px}
+@media(max-width:900px){.head{grid-template-columns:minmax(0,1fr)}.head>.sub{justify-self:start}}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.pill{background:var(--card);border:1px solid var(--line);border-top:2px solid var(--red);padding:24px;border-radius:4px;transition:transform .3s}
+.pill:hover{transform:translateY(-6px)}
+.pill h3{font-size:clamp(16px,1.45vw,20px);margin:10px 0 8px;overflow-wrap:anywhere;hyphens:auto}.pill p{margin:0;color:#bdb4aa}
+.tagline{margin:40px 0 0;display:flex;gap:16px 30px;align-items:center;flex-wrap:wrap}
+.team{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.mate{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr);gap:24px;background:#fff8;border:1px solid #cfc6ba;padding:20px;border-radius:4px}
+.ph{aspect-ratio:3/4;background:var(--blk);position:relative;overflow:hidden;border-radius:2px;display:grid;place-items:center}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.1);transition:filter .5s,transform .6s}
+.mate:hover .ph img{filter:none}
+.ph b{font:900 56px Unbounded;color:var(--red)}
+.ph::before,.ph::after{content:"";position:absolute;z-index:1;width:22px;height:22px;border:2px solid var(--red)}
+.ph::before{top:8px;left:8px;border-right:0;border-bottom:0}.ph::after{bottom:8px;right:8px;border-left:0;border-top:0}
+.ph .mono{position:absolute;z-index:1;top:10px;right:12px;color:var(--paper);font-size:11px}
+.mate h3{font-size:24px}.mate .role{font-weight:700;color:var(--red);margin:6px 0 12px}
+.mate ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.mate li{padding-left:18px;position:relative;color:#2b2522}.mate li::before{content:"✦";position:absolute;left:0;color:var(--red);font-size:11px;top:3px}
+.mate .quote{font-family:Lobster;color:var(--red);font-size:22px;margin:14px 0 0;transform:rotate(-2deg)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.chips span{font:600 13px Inter;background:var(--blk);color:var(--paper);padding:5px 10px;border-radius:99px}
+.stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;margin-bottom:56px}
+.st{border-left:3px solid var(--red);padding:6px 0 6px 16px}
+.st>b{display:block;font:900 clamp(26px,2.5vw,40px) Unbounded;line-height:1;white-space:nowrap}
+.st>span{color:#bdb4aa;font-size:14px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tabs button{all:unset;cursor:pointer;padding:12px 18px;border:1px solid #3a2e2e;border-radius:99px;font:600 14px Inter}
+.tabs button[aria-selected=true]{background:var(--paper);color:var(--blk)}
+.tabs button:focus-visible{outline:2px solid var(--red)}
+.rail{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:16px;scrollbar-width:thin;scrollbar-color:var(--red) transparent}
+.vc{flex:0 0 clamp(220px,24vw,280px);scroll-snap-align:start;aspect-ratio:9/16;border-radius:6px;position:relative;overflow:hidden;cursor:pointer;border:0;padding:0;text-align:left;color:var(--paper);background:var(--card);font:inherit}
+.vc .bg{position:absolute;inset:0;transition:transform .6s}
+.vc:hover .bg{transform:scale(1.06)}
+.vc video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vc .in{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:16px;background:linear-gradient(180deg,rgba(10,6,6,.55),transparent 35%,transparent 55%,rgba(10,6,6,.9))}
+.vc .views{font:400 34px Lobster;color:var(--paper);line-height:1}
+.vc h4{margin:4px 0 0;font:900 17px Unbounded;text-transform:uppercase}
+.play{width:64px;height:64px;border-radius:50%;background:var(--red);display:grid;place-items:center;align-self:center;box-shadow:0 0 0 8px rgba(235,4,3,.25);transition:transform .3s}
+.vc:hover .play{transform:scale(1.12)}
+.vc .soon{background:#3a2e2e;box-shadow:none}
+.arws{display:flex;gap:8px}
+.arw{all:unset;cursor:pointer;width:48px;height:48px;border-radius:50%;border:1px solid #4a3c3c;display:grid;place-items:center;font-size:20px}
+.arw:hover{background:var(--red);border-color:var(--red)}
+.cyc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5vw;align-items:center}
+.ring{position:relative;aspect-ratio:1;max-width:460px;width:100%;justify-self:center}
+.ring svg{position:absolute;inset:0;width:100%;height:100%;animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ring .n{position:absolute;transform:translate(-50%,-50%);background:var(--tag);color:var(--blk);font:900 12px Unbounded;text-transform:uppercase;padding:8px 12px;white-space:nowrap;border-radius:2px}
+.ring .c{position:absolute;inset:30%;display:grid;place-items:center;text-align:center}
+.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;background:#cfc6ba;border:2px solid #cfc6ba}
+.step{background:var(--paper);padding:22px 18px}
+.step b{font:400 40px Lobster;color:var(--red)}.step h3{font-size:16px;margin:4px 0 8px}.step p{margin:0;font-size:15px;color:#3b3430}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:32px}
+.facts b{display:block;font:900 14px Unbounded;text-transform:uppercase;margin-bottom:4px}
+.list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px;margin-top:8px}
+.list div{display:flex;justify-content:space-between;gap:12px;padding:16px 0;border-bottom:1px solid #cfc6ba;font-weight:700}
+.list span{font:500 13px "IBM Plex Mono";color:#6b625a;white-space:nowrap}
+.list em{font-style:normal;color:var(--red);margin-right:12px}
+.pk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+.pc{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:28px;display:flex;flex-direction:column;gap:10px;position:relative;transition:transform .3s,border-color .3s}
+.pc:hover{transform:translateY(-8px);border-color:var(--red)}
+.pc.hot{background:linear-gradient(160deg,#3a0606,var(--card) 60%);border-color:var(--red)}
+.pc .badge{position:absolute;top:-12px;right:20px;background:var(--red);color:#fff;font:700 12px Inter;padding:5px 10px;border-radius:2px}
+.pc h3{font-size:20px}.price{font:900 clamp(32px,3.2vw,46px) Unbounded;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}.price span{white-space:nowrap}
+.price small{font:500 14px Inter;color:var(--film)}
+.pc p{margin:0;color:#bdb4aa}
+.extra{margin-top:16px;display:grid;grid-template-columns:minmax(0,1.2fr) repeat(3,minmax(0,1fr));gap:16px;align-items:start;border-top:1px solid var(--line);padding-top:24px}
+.extra b{display:block;font:900 13px Unbounded;text-transform:uppercase;margin-bottom:4px}.extra p{margin:0;color:#bdb4aa;font-size:15px}
+.final{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5vw;align-items:start}
+.final .contact{position:sticky;top:96px}
+.final ol{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;gap:10px}
+.final li{counter-increment:s;display:flex;gap:14px;align-items:baseline;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.final li::before{content:counter(s,decimal-leading-zero);font:500 13px "IBM Plex Mono";color:var(--red)}
+.contact{background:var(--red);color:#fff;border-radius:6px;padding:clamp(24px,4vw,44px);display:flex;flex-direction:column;gap:16px}
+.contact .mk{color:#fff;font-size:clamp(40px,5vw,64px)}
+.contact .row{display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.35);text-decoration:none;font-weight:700;font-size:18px;overflow-wrap:anywhere}
+.contact .btn{background:var(--blk);color:#fff;align-self:start}
+footer{padding:28px var(--pad);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line)}
+dialog{border:0;padding:0;background:transparent;max-width:min(92vw,440px);width:100%}
+dialog::backdrop{background:rgba(10,6,6,.92)}
+.mbox{background:var(--card);border:1px solid var(--red);border-radius:6px;overflow:hidden;position:relative}
+.mbox video{display:block;width:100%;max-height:80vh;background:#000}
+.mbox .empty{aspect-ratio:9/16;display:grid;place-items:center;text-align:center;padding:30px;color:var(--paper)}
+.x{position:absolute;top:8px;right:8px;z-index:2;all:unset;cursor:pointer;width:44px;height:44px;display:grid;place-items:center;background:var(--blk);border-radius:50%;color:#fff;font-size:20px}
+.mbox .cap{padding:14px 16px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.rv{opacity:0;transform:translateY(40px);transition:opacity .8s,transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.on{opacity:1;transform:none}
+
+.ctab{margin-top:56px;display:flex;justify-content:space-between;align-items:center;gap:20px 32px;flex-wrap:wrap;padding:28px clamp(20px,3vw,36px);border:1px dashed var(--red);border-radius:6px}
+.paper .ctab{background:#fff6}
+.ctab .acts{display:flex;gap:10px;flex-wrap:wrap}
+.paper .btn.ghost{color:var(--blk);border-color:#a99f94}
+#fab{position:fixed;right:max(3vw,14px);bottom:16px;z-index:60;box-shadow:0 10px 30px rgba(235,4,3,.45);transform:translateY(120px);transition:transform .4s}
+#fab.show{transform:none}
+.calc{margin-top:22px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;background:#120b0b;border:1px solid var(--line);border-radius:6px;padding:clamp(20px,3vw,36px)}
+.calc h3{font-size:22px}.calc .nm{font:400 34px Lobster;color:var(--red);margin:10px 0 18px}
+.kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.kv b{display:block;font:900 clamp(24px,2.6vw,34px) Unbounded;white-space:nowrap;transition:color .3s}
+.kv span{color:#bdb4aa;font-size:14px}
+.bars{display:grid;gap:14px;align-content:center}
+.bar{display:grid;gap:6px;cursor:pointer}
+.bar .l{display:flex;justify-content:space-between;gap:10px;font-weight:600;font-size:14px}
+.bar .l em{font-style:normal;color:var(--film);white-space:nowrap}
+.bar .tr{height:14px;background:#2a2020;border-radius:99px;overflow:hidden}
+.bar .fl{height:100%;background:#5a2a2a;border-radius:99px;transition:width .7s cubic-bezier(.2,.7,.2,1),background .3s}
+.bar.on .fl{background:var(--red)}
+.bar.best .l b::after{content:" ★";color:var(--red)}
+.calc .note{grid-column:1/-1;margin:0;color:var(--film);font-size:13px}
+.pc.act{border-color:var(--red);transform:translateY(-8px)}
+@media(max-width:700px){.calc{grid-template-columns:minmax(0,1fr)}#fab{left:auto}}
+
+.toast{position:fixed;left:max(3vw,14px);bottom:86px;z-index:70;display:flex;align-items:flex-end;gap:0;max-width:min(440px,calc(100vw - 28px));transform:translateX(-140%) rotate(-6deg);opacity:0;transition:transform .6s cubic-bezier(.2,1.4,.4,1),opacity .3s;pointer-events:none}
+.toast.show{transform:none;opacity:1;pointer-events:auto}
+.toast img{width:92px;flex:none;margin-right:-14px;position:relative;z-index:2;animation:bob 2.4s ease-in-out infinite}
+.toast .tg{background:var(--tag);color:var(--blk);padding:14px 40px 14px 26px;border-radius:4px;transform:rotate(-2deg);box-shadow:0 14px 34px rgba(0,0,0,.5);position:relative;clip-path:polygon(4% 0,100% 0,100% 100%,4% 100%,0 50%)}
+.toast .tg p{margin:0 0 8px;font-weight:700;line-height:1.3}
+.toast .tg a{font:700 14px Inter;color:var(--red);text-decoration:none}
+.toast .tg a::after{content:" →"}
+.toast .xx{all:unset;cursor:pointer;position:absolute;top:4px;right:6px;width:32px;height:32px;display:grid;place-items:center;color:#6b625a;font-size:16px}
+.reach{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s,opacity .4s,margin .4s;margin:0}
+.pc:hover .reach,.pc:focus-within .reach,.pc.open .reach{max-height:320px;opacity:1;margin:6px 0 4px}
+.reach .rg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:14px;border:1px dashed #4a3c3c;border-radius:4px;background:#0a0606}
+.reach b{display:block;font:900 18px Unbounded;white-space:nowrap}
+.reach span{font-size:12px;color:var(--film)}
+.reach .rb{grid-column:1/-1}
+.reach .tr{height:10px;background:#2a2020;border-radius:99px;overflow:hidden;margin-top:6px}
+.reach .fl{height:100%;width:0;background:var(--red);border-radius:99px;transition:width .9s cubic-bezier(.2,.7,.2,1) .15s}
+.pc:hover .fl,.pc:focus-within .fl,.pc.open .fl{width:var(--w)}
+.pc .hint{font:500 12px "IBM Plex Mono";color:var(--film)}
+.pc:hover .hint,.pc.open .hint{display:none}
+.stepm{height:64px;width:auto;margin-bottom:6px}
+.why .masc{height:84px;width:auto;margin-bottom:6px}
+.contact{position:relative}
+.contact .cm{position:absolute;right:-18px;top:-46px;width:120px;transform:rotate(8deg)}
+.contact .row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;white-space:nowrap;font-size:clamp(14px,1.5vw,17px)}
+.contact .row span:first-child{font:500 12px "IBM Plex Mono";opacity:.8}
+.contact .row span:last-child{overflow:hidden;text-overflow:ellipsis}
+.contact .bt{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.contact .bt .btn{justify-content:center;white-space:nowrap;padding:0 12px;font-size:14px}
+
+footer .masc{height:56px;width:auto}
+@media(max-width:700px){.toast{bottom:76px}.toast img{width:70px}.contact .row{flex-direction:column;gap:2px}.contact .bt{grid-template-columns:minmax(0,1fr)}.contact p{white-space:normal}.contact .cm{width:90px;top:-40px;right:-8px}.hm{width:32%}}
+
+.stk{background:radial-gradient(circle,#EAE5DC 0 66%,transparent 67%);border-radius:50%;padding:10px;object-fit:contain;box-sizing:border-box}
+.toast img.stk{width:96px;height:96px}
+.proc{background:#0d0808;padding-top:calc(clamp(56px,8vw,112px) + 18px);padding-bottom:calc(clamp(56px,8vw,112px) + 18px)}
+.proc::before,.proc::after{content:"";position:absolute;left:0;right:0;height:22px;background:#000 repeating-linear-gradient(90deg,transparent 0 12px,#2a2020 12px 26px,transparent 26px 36px) 0 50%/100% 9px no-repeat}
+.proc::before{top:0}.proc::after{bottom:0}
+.ruler{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;font:500 11px "IBM Plex Mono";color:var(--film);padding-bottom:8px;margin-bottom:10px;background:repeating-linear-gradient(90deg,#3a2e2e 0 1px,transparent 1px 20px) bottom/100% 7px no-repeat}
+.track{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.clip{position:relative;background:linear-gradient(180deg,#2a0707,#140c0c 70%);border:1px solid #3a1a1a;border-top:3px solid var(--red);padding:40px 18px 22px;border-radius:3px;min-height:240px;transition:transform .3s,border-color .3s}
+.clip:hover{transform:translateY(-6px);border-color:var(--red)}
+.clip .tcd{position:absolute;top:12px;left:18px;font-size:11px;color:var(--red)}
+.clip .n{font:900 52px/1 Unbounded;color:transparent;-webkit-text-stroke:1.5px var(--red)}
+.clip h3{font-size:16px;margin:16px 0 8px}
+.clip p{margin:0;color:#bdb4aa;font-size:15px}
+#playhead{position:absolute;z-index:2;top:-30px;bottom:-8px;left:var(--p,0%);width:2px;background:var(--red);box-shadow:0 0 14px var(--red);pointer-events:none;transition:left .15s linear}
+#playhead::before{content:"";position:absolute;top:0;left:-7px;border:8px solid transparent;border-top:11px solid var(--red)}
+.proc .facts{border-top:1px solid #2a2020;padding-top:28px;margin-top:40px}
+.proc .facts span{color:#bdb4aa}
+.st{position:relative;cursor:default}
+.st .tip{position:absolute;left:0;top:calc(100% + 10px);z-index:5;min-width:250px;background:var(--tag);color:var(--blk);border-radius:4px;padding:14px 16px;box-shadow:0 18px 40px rgba(0,0,0,.6);opacity:0;transform:translateY(-6px) rotate(-1deg);pointer-events:none;transition:opacity .25s,transform .25s}
+.st:hover .tip,.st:focus .tip{opacity:1;transform:none}
+.st:nth-child(n+4) .tip{left:auto;right:0}
+.tip .mono{color:#6b625a;margin-bottom:8px}
+.tr2{display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:8px;align-items:baseline;padding:5px 0;border-top:1px solid #d6cdc2;font-size:14px}
+.tr2 em{font:400 18px Lobster;color:var(--red);font-style:normal}.tr2 b{white-space:nowrap}
+.st[tabindex="0"]>span::after{content:" ⓘ";color:var(--red)}
+.head .sub{margin:0}.head>div{min-width:0}
+.final ol li{display:grid;grid-template-columns:42px minmax(0,1fr);align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.final li::before{content:counter(s,decimal-leading-zero);display:grid;place-items:center;width:42px;height:42px;border:1px solid var(--red);border-radius:3px;font:900 13px Unbounded;color:var(--red)}
+@media(max-width:980px){.track,.ruler{grid-template-columns:repeat(2,minmax(0,1fr))}#playhead,.ruler{display:none}}
+@media(max-width:560px){.ring{width:86%}.ring .n{font-size:10px;padding:6px 8px}.track{grid-template-columns:minmax(0,1fr)}.clip{min-height:0}.st .tip{min-width:220px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+
+.st.yb>b{color:var(--red);font-family:Lobster,cursive;font-weight:400;animation:pulse 1.6s ease-in-out infinite}
+.st.yb{border-left-style:dashed}
+.st .inf{margin-top:6px;color:var(--paper);white-space:nowrap;font-size:12px}
+.st .inf i{font-style:normal;color:var(--red)}
+@keyframes pulse{50%{transform:scale(1.15)}}
+@media(max-width:1180px){.stats{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:28px}}
+@media(max-width:980px){.links{display:none}.lang{margin-left:auto}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.steps{grid-template-columns:repeat(2,minmax(0,1fr))}.team,.pk{grid-template-columns:minmax(0,1fr)}.extra{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.hero,.cyc,.final{grid-template-columns:minmax(0,1fr)}.hero{padding-top:96px}.steak{max-width:340px;order:-1}.mate{grid-template-columns:minmax(0,1fr)}.ph{aspect-ratio:4/3}.list,.facts{grid-template-columns:minmax(0,1fr)}.navcta{display:none}.corners{display:none}#tc{display:none}}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){.g4,.steps,.extra{grid-template-columns:minmax(0,1fr)}.lang button{padding:8px 9px}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="#top"><span class="dot"></span><img src="meat-word.webp" alt="MEAT" height="24"><i>PRODUCTION</i></a>
+  <div class="links">
+    <a href="#about" data-t="n1"></a><a href="#team" data-t="n2"></a><a href="#work" data-t="n3"></a><a href="#process" data-t="n4"></a><a href="#packages" data-t="n5"></a>
+  </div>
+  <div class="lang" role="group" aria-label="Language">
+    <button data-l="ua">UA</button><button data-l="ru">RU</button><button data-l="pl">PL</button>
+  </div>
+  <a class="btn red navcta" href="#contact" data-t="cta"></a>
+</nav>
+<div id="tc" class="mono"><span>● REC</span> <b id="tct">00:00:00:00</b></div>
+
+<header class="band hero" id="top">
+  <div class="corners"><i></i><i></i><i></i><i></i></div>
+  <div class="rv">
+    <div class="mono" data-t="hk"></div>
+    <div class="wm"><img class="word" src="meat-word.webp" alt="MEAT"><span>©</span></div>
+    <h1 data-t="h1"></h1>
+    <p class="sub" data-t="hs"></p>
+    <div class="mk" style="font-size:clamp(22px,2.6vw,32px)">Camera · Light · Story · People</div>
+    <div class="acts"><a class="btn red" href="https://ig.me/m/meat_prod" data-t="cta2"></a><a class="btn ghost" href="#work" data-t="cta3"></a></div>
+  </div>
+  <div class="steak rv"><svg id="steak" viewBox="0 0 400 400" aria-label="MEAT Production"></svg></div>
+</header>
+
+<div class="mq" aria-hidden="true"><div id="mq"></div></div>
+
+<section class="band" id="about">
+  <div class="wrap">
+    <div class="head rv"><div><div class="mono" data-t="a0"></div><h2 data-t="a1"></h2></div><p class="sub" data-t="a2"></p></div>
+    <div class="g4" id="pillars"></div>
+    <div class="tagline rv"><img class="masc stk" src="m-idea.webp" alt="" style="height:96px;width:96px"><span class="mk" data-t="a3"></span><span class="mono" data-t="a4"></span></div>
+  </div>
+</section>
+
+<section class="band paper" id="team">
+  <div class="wrap">
+    <div class="head rv"><div><div class="mono" data-t="t0"></div><h2 data-t="t1"></h2></div><p class="sub" data-t="t2"></p></div>
+    <div class="team" id="mates"></div>
+  </div>
+</section>
+
+<section class="band" id="work">
+  <div class="wrap">
+    <div class="head rv"><div><div class="mono" data-t="w0"></div><h2 data-t="w1"></h2></div><p class="sub" data-t="w2"></p></div>
+    <div class="stats rv" id="stats"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px">
+      <div class="tabs" role="tablist"><button role="tab" data-tab="taras" aria-selected="false" data-t="tab1"></button><button role="tab" data-tab="matvii" aria-selected="true" data-t="tab2"></button></div>
+      <div class="arws"><button class="arw" id="prev" aria-label="Previous">←</button><button class="arw" id="next" aria-label="Next">→</button></div>
+    </div>
+    <div class="rail" id="rail" tabindex="0"></div>
+  </div>
+</section>
+
+<section class="band" style="background:#120b0b">
+  <div class="wrap cyc">
+    <div class="rv"><div class="mono" data-t="c0"></div><h2 data-t="c1"></h2><p class="sub" data-t="c2"></p><p class="sub" data-t="c3"></p></div>
+    <div class="ring rv" id="ring"></div>
+  </div>
+</section>
+
+<section class="band proc" id="process">
+  <div class="wrap">
+    <div class="head rv"><div><div class="mono" data-t="p0"></div><h2 data-t="p1"></h2></div><p class="sub" data-t="p2"></p></div>
+    <div class="tl rv"><div class="ruler" id="ruler"></div><div class="track" id="steps"><i id="playhead"></i></div></div>
+    <div class="facts rv" id="facts"></div>
+  </div>
+</section>
+
+<section class="band paper">
+  <div class="wrap">
+    <div class="head rv"><div><div class="mono" data-t="i0"></div><h2 data-t="i1"></h2></div><p class="sub" data-t="i2"></p></div>
+    <div class="list rv" id="incl"></div>
+  </div>
+</section>
+
+<section class="band" id="packages">
+  <div class="wrap">
+    <div class="head rv"><div style="display:flex;gap:18px;align-items:end"><img class="masc stk" src="m-money.webp" alt="" style="height:100px;width:100px"><div><div class="mono" data-t="k0"></div><h2 data-t="k1"></h2></div></div><p class="sub" data-t="k2"></p></div>
+    <div class="pk" id="pk"></div>
+    <div class="extra rv" id="extra"></div>
+  </div>
+</section>
+
+<section class="band paper">
+  <div class="wrap">
+    <div class="head rv"><div><div class="mono" data-t="y0"></div><h2 data-t="y1"></h2></div></div>
+    <div class="g4 why" id="why"></div>
+  </div>
+</section>
+
+<section class="band" id="contact">
+  <div class="wrap final">
+    <div class="rv"><div class="mono" data-t="f0"></div><h2 data-t="f1" style="margin-bottom:28px"></h2><ol id="start"></ol></div>
+    <div class="contact rv">
+      <span class="mk" data-t="f2"></span>
+      <p style="margin:0;font-size:17px" data-t="f3"></p>
+      <a class="row" href="https://instagram.com/meat_prod"><span>Instagram</span><span>@meat_prod ↗</span></a>
+      <a class="row" href="mailto:meat.production.contact@gmail.com"><span>Email</span><span>meat.production.contact@gmail.com</span></a>
+      <div class="row"><span data-t="f5"></span><span data-t="f4"></span></div>
+      <div class="bt"><a class="btn" href="https://ig.me/m/meat_prod" style="background:#0a0606;color:#fff" data-t="f6"></a><button class="btn copy" type="button" style="background:#fff;color:#0a0606" data-t="cp"></button></div>
+    </div>
+  </div>
+</section>
+
+<footer><span style="display:flex;gap:12px;align-items:center"><img class="masc stk" src="m-zzz.webp" alt="" style="height:56px;width:56px"><span class="mono">MEAT PRODUCTION · © 2026</span></span><span class="mono" data-t="ft"></span></footer>
+
+<a id="fab" class="btn red" href="https://ig.me/m/meat_prod"><span class="dot" style="background:#fff"></span><span data-t="fab"></span></a>
+<div class="toast" id="toast" role="status"><img id="tm" class="stk" src="m-onset.webp" alt=""><div class="tg"><button class="xx" id="tx" aria-label="Close">✕</button><p id="tt"></p><a id="ta" href="https://ig.me/m/meat_prod"></a></div></div>
+<dialog id="dlg"><div class="mbox"><button class="x" id="dx" aria-label="Close">✕</button><div id="dbody"></div></div></dialog>
+
+<script>
+{
+/* ===== ВІДЕО: покладіть файл у папку v- і впишіть шлях у src, напр. "v-als-top1.mp4" — відтвориться прямо на сайті ===== */
+const WORKS={
+ taras:[
+  {id:"v6",client:"",views:"648K",tag:"reels",src:"v-t6.mp4",poster:"v-t6.jpg"},
+  {id:"v4",client:"",views:"87K",tag:"reels",src:"v-t4.mp4",poster:"v-t4.jpg"},
+  {id:"v1",client:"",views:"626K",tag:"reels",src:"v-t1.mp4",poster:"v-t1.jpg"},
+  {id:"v3",client:"",views:"128K",tag:"reels",src:"v-t3.mp4",poster:"v-t3.jpg"},
+  {id:"v5",client:"",views:"540K",tag:"reels",src:"v-t5.mp4",poster:"v-t5.jpg"},
+  {id:"v7",client:"",views:"",tag:"reels",src:"v-t7.mp4",poster:"v-t7.jpg"},
+  {id:"v2",client:"",views:"323K",tag:"reels",src:"v-t2.mp4",poster:"v-t2.jpg"}],
+ matvii:[
+  {id:"m1",client:"Sienna restaurant",views:"",tag:"brand",src:"v-sienna1.mp4",poster:"v-sienna1.jpg",hue:"#4a0a0a"},
+  {id:"m2",client:"Haunted · SFX",views:"",tag:"reels",src:"v-haunted.mp4",poster:"v-haunted.jpg",hue:"#2b0606"},
+  {id:"m3",client:"Barracuda",views:"",tag:"reels",src:"v-barracuda.mp4",poster:"v-barracuda.jpg",hue:"#5a0d0d"},
+  {id:"m4",client:"Boks",views:"",tag:"reels",src:"v-boks.mp4",poster:"v-boks.jpg",hue:"#360808"},
+  {id:"m5",client:"Sienna restaurant",views:"",tag:"brand",src:"v-sienna2.mp4",poster:"v-sienna2.jpg",hue:"#3d0b0b"},
+  {id:"m6",client:"Reels",views:"",tag:"reels",src:"v-img3209.mp4",poster:"v-img3209.jpg",hue:"#2f0707"}]
+};
+/* ===== ФОТО: шлях до фото і точка кадрування ===== */
+/* ===== ТОП-ВІДЕО для підказок у «Цифри, а не обіцянки» (реальні цифри з презентації; доповнюйте) ===== */
+const TOPV=[
+ [["Veles Mall","643,2K"],["Veles Mall","611,1K"]],
+ [["Al's Barbershop","648,9K"],["Al's Barbershop","416,7K"]],
+ [],[],
+ [["Al's Barbershop","648,9K"],["Veles Mall","643,2K"],["Veles Mall","611,1K"]]];
+const PHOTOS={taras:{src:"taras-c.jpg",pos:"50% 40%",z:1},matvii:{src:"matvii.jpg",pos:"36% 40%",z:1}};
+const CLIENTS={taras:["Bukovel","Glacier","Philips","Aznauri","Binance","Dorofeeva","MONATIK","Оля Полякова","Veles Mall","Al's Barbershop"],matvii:["Sienna restaurant","LEE Jeans","8HUB","Touch Coffee","Obrani Crew","LOBODA","T-Fest","Noize MC","Монеточка"]};
+
+const T={
+ua:{yb:"Тут буде твій бізнес",topv:"Топ відео за переглядами",p2:"П'ять кроків, один монтажний таймлайн: від стратегії до цифр — і по колу.",hint:"Наведи або натисни — покажемо охоплення",jk:["Ці двоє вже бачать твій бізнес у кадрі. Пиши!","Твій бізнес може бути наступним у цьому слайдері. Серйозно.","Сценарій пишемо ми. Від тебе — одне слово: «М'ЯСО»","Не можеш обрати пакет? Ми теж довго обирали кепку. Підкажемо!","Ми не кусаємося. Хіба що стейк."],fab:"Напиши «М'ЯСО»",cbtn:"Написати в директ",cbtn2:"Порахувати охоплення",cp:"Скопіювати пошту",cpd:"Скопійовано ✓",cb1:"Хочеш, щоб ми зняли й тебе?",cb2:"Твій бізнес — наступний кейс",cb3:"Напиши «М'ЯСО» — обговоримо твою ідею",cb4:"Без води. Просто напиши нам",ct0:"Калькулятор охоплень",ct1:"Що ти отримаєш за місяць",ctb:"Хочу цей пакет",ctn:"Орієнтовна модель, не гарантія: реальні цифри залежать від ніші, акаунта й рекламного бюджету. Наведи або натисни на пакет, щоб порівняти.",ck:["Відео","Перегляди за місяць","За 3 місяці з ростом","Ціна за 1000 переглядів"],cper:["разово","на місяць"],cbar:"Переглядів на кожні $100",cbest:"Content Start дає найбільше охоплення за кожен долар",n1:"Хто ми",n2:"Команда",n3:"Роботи",n4:"Процес",n5:"Пакети",cta:"Написати",
+hk:"● REC · Продакшн повного циклу · Варшава",h1:"Ми робимо м'ясо",hs:"Рілси, реклама та контент для бізнесу під ключ: ідея → зйомка → монтаж → результат. Без води — тільки м'ясо.",cta2:"Обговорити проєкт",cta3:"Дивитись роботи",
+mq:["Ось це м'ясо","Без води. Тільки м'ясо","Знімаємо м'ясо. Ріжемо зайве","Свіже м'ясо — щотижня","Подаємо гарячим","Сирий кадр — готовий результат"],
+a0:"01 / Про нас",a1:"Хто ми",a2:"Продакшн, створений двома операторами з новим баченням. Повний цикл у Варшаві: стратегія → зйомка → монтаж → аналіз. Знімаємо рілси, рекламу та контент для ресторанів, кафе, барбершопів, салонів, ТЦ, будівництва й сервісів.",a3:"Звичайний бізнес — незвичайна реклама",a4:"Для українсько-, російсько- та польськомовного бізнесу",
+pil:[["Camera","Кіно-картинка: оптика й глибина"],["Light","Світло будує історію"],["Story","Сюжет є в кожного бізнесу"],["People","Люди на майданчику й у кадрі"]],
+t0:"02 / Команда",t1:"Двоє з камерою",t2:"Кіношний підхід, досвід у кліпах, фільмах і рекламі та результат у цифрах. Тому ваш ролик виділяється в стрічці.",
+taras:["Тарас Бакун","Reels-продюсер, режисер, оператор · співзасновник MEAT Production",["7 років зйомки: реклама, кліпи, контент для брендів і артистів","Знімав для блогерів-мільйонників і бізнесів різних ніш","Виростив акаунти Veles Mall (153,6K) та Al's Barbershop (30,7K) — 2,3M+ переглядів у топ-відео"],"Контент, який дивляться до кінця — і який приводить клієнтів"],
+matvii:["Матвій Конанков","Оператор-режисер · співзасновник",["5 років знімає, з Варшави","Закінчив Варшавський університет за спеціальністю «операторське та режисерське мистецтво»","Почав із короткометражних фільмів — кіношний підхід переніс у рекламу, кліпи, івенти й рілси","Постановка кадру, робота зі світлом і з великою командою на майданчику","Великий комплект власної професійної техніки"],"Спочатку сенс, історія й референси — потім камера"],
+clientsM:"Працював з:",bloggers:"+ блогери-мільйонники",
+w0:"03 / Роботи",w1:"Цифри, а не обіцянки",w2:"Проєкти команди: підписники акаунтів, які ми вели, перегляди найпопулярніших відео та артисти й бренди, з якими знімали. Натисніть на картку, щоб подивитися.",
+stats:[["153,6K","Veles Mall · ТЦ"],["30,7K","Al's Barbershop"],["13,3K","VD Group · будівництво"],["12,7K","Green Wood Park"],["2,3M+","переглядів у 4 топ-відео"]],
+tab1:"Роботи Тараса",tab2:"Роботи Матвія",views:"переглядів",subs:"підписників",top1:"TOP 1",top2:"TOP 2",artist:"Артист",brand:"Бренд",soon:"Відео скоро буде тут",
+c0:"04 / Система",c1:"Контент працює сам на себе",c2:"Кожен ролик дає охоплення і дані. За ними робимо наступний ще сильнішим — і коло розкручується.",c3:"На виході бізнес отримує впізнаваність і бібліотеку топ-контенту.",
+ring:["Нові ролики","Охоплення","Впізнаваність","Аналіз цифр","Топ-формати"],rc:"Контент працює сам на себе",
+p0:"05 / Процес",p1:"Як ми працюємо",
+steps:[["Стратегія","Аналіз бізнесу, аудиторії та конкурентів."],["Сценарій","Сценарій до кожного ролика й контент-план на місяць."],["Зйомка","Близько 3 знімальних днів на місяць: світло, звук, кінокамери."],["Монтаж","Монтаж, колір, субтитри. Хук, утримання і CTA."],["Аналіз","Дивимось цифри й посилюємо те, що працює."]],
+facts:[["Формати","Reels, TikTok, Shorts і рекламні ролики"],["Мови","UA · RU · PL — під вашу аудиторію"],["Одна команда","Від ідеї до публікації — один ритм і одна відповідальність"]],
+i0:"06 / Що входить",i1:"Все під ключ",i2:"Вам не треба шукати сценариста, оператора й монтажера — все це робимо ми.",
+incl:[["Аналіз бізнесу, аудиторії та конкурентів","старт"],["Концепція і фішки бренду","старт"],["Сценарії до кожного ролика","завжди"],["Контент-план на місяць","щомісяця"],["Зйомки на проф. техніці","~3 дні"],["Монтаж, колір, субтитри","включено"],["Трендові, експертні й рекламні ролики","мікс"],["Аналіз результатів і дзвінок зі звітом","щомісяця"]],
+k0:"07 / Пакети",k1:"Оберіть формат",k2:"Ціни — за один акаунт і одну мовну версію. Мікс форматів (гумор / експерт / кейси) підбираємо під вас.",
+pk:[["Content Test","850 $","разово","3 відео: скетч · опитування · експерт",""],["Content Start","2 500 $","/ міс","15 відео на місяць","Найвигідніше"],["Content Growth","5 000 $","/ міс","30 відео на місяць — максимум росту",""]],
+ex:[["TikTok Native","+1 000 $/міс · 10 нативних відео"],["Оплата","щомісяця, обсяг — за пакетом"],["KPI","фіксуємо після 1–2 місяців"],["Важливо","Content Test — перевірка виробництва, без гарантії результату. TikTok Native — гра вдовгу."]],
+y0:"08 / Чому ми",y1:"З нами просто",
+why:[["Одна команда","Стратегія, сценарій, зйомка й монтаж — в одних руках."],["Кіно-картинка","Оператори з досвідом у кліпах, фільмах і рекламі."],["Гумор та історії","Контент, який дивляться до кінця: скетчі, тренди, кейси."],["Робота на результат","Щомісяця дивимось на цифри й посилюємо те, що приводить клієнтів."]],
+f0:"09 / Старт",f1:"Як почати",
+start:["Пишете нам у директ","Дзвінок: розбираємо ваш бізнес і цілі","Пропонуємо концепцію і фішку","Обираєте пакет — фіксуємо обсяг","Пишемо сценарії й контент-план","Знімаємо й монтуємо перші ролики","Публікуємо й дивимось на цифри","Щомісяця — звіт і новий план"],
+f2:"Зробимо м'ясо?",f3:"Пиши в директ — ми не кусаємося.",f4:"Тарас Бакун · Матвій Конанков",f5:"Варшава",f6:"Написати в Instagram",ft:"Камера. Світло. Історія. Люди."},
+
+ru:{yb:"Здесь будет твой бизнес",topv:"Топ видео по просмотрам",p2:"Пять шагов, один монтажный таймлайн: от стратегии до цифр — и по кругу.",hint:"Наведи или нажми — покажем охваты",jk:["Эти двое уже видят твой бизнес в кадре. Пиши!","Твой бизнес может быть следующим в этом слайдере. Серьёзно.","Сценарий пишем мы. От тебя — одно слово: «МЯСО»","Не можешь выбрать пакет? Мы тоже долго выбирали кепку. Подскажем!","Мы не кусаемся. Разве что стейк."],fab:"Напиши «МЯСО»",cbtn:"Написать в директ",cbtn2:"Посчитать охваты",cp:"Скопировать почту",cpd:"Скопировано ✓",cb1:"Хочешь, чтобы мы сняли и тебя?",cb2:"Твой бизнес — следующий кейс",cb3:"Напиши «МЯСО» — обсудим твою идею",cb4:"Без воды. Просто напиши нам",ct0:"Калькулятор охватов",ct1:"Что ты получишь за месяц",ctb:"Хочу этот пакет",ctn:"Ориентировочная модель, не гарантия: реальные цифры зависят от ниши, аккаунта и рекламного бюджета. Наведи или нажми на пакет, чтобы сравнить.",ck:["Видео","Просмотры за месяц","За 3 месяца с ростом","Цена за 1000 просмотров"],cper:["разово","в месяц"],cbar:"Просмотров на каждые $100",cbest:"Content Start даёт максимум охвата за каждый доллар",n1:"Кто мы",n2:"Команда",n3:"Работы",n4:"Процесс",n5:"Пакеты",cta:"Написать",
+hk:"● REC · Продакшн полного цикла · Варшава",h1:"Мы делаем мясо",hs:"Рилсы, реклама и контент для бизнеса под ключ: идея → съёмка → монтаж → результат. Без воды — только мясо.",cta2:"Обсудить проект",cta3:"Смотреть работы",
+mq:["Вот это мясо","Без воды. Только мясо","Снимаем мясо. Режем лишнее","Свежее мясо — каждую неделю","Подаём горячим","Сырой кадр — готовый результат"],
+a0:"01 / О нас",a1:"Кто мы",a2:"Продакшн, созданный двумя операторами с новым видением. Полный цикл в Варшаве: стратегия → съёмка → монтаж → анализ. Снимаем рилсы, рекламу и контент для ресторанов, кафе, барбершопов, салонов, ТЦ, стройки и сервисов.",a3:"Обычный бизнес — необычная реклама",a4:"Для украино-, русско- и польскоязычного бизнеса",
+pil:[["Camera","Кино-картинка: оптика и глубина"],["Light","Свет строит историю"],["Story","У каждого бизнеса есть сюжет"],["People","Люди на площадке и в кадре"]],
+t0:"02 / Команда",t1:"Двое с камерой",t2:"Киношный подход, опыт в клипах, фильмах и рекламе и результат в цифрах. Поэтому ваш ролик выделяется в ленте.",
+taras:["Тарас Бакун","Reels-продюсер, режиссёр, оператор · сооснователь MEAT Production",["7 лет съёмок: реклама, клипы, контент для брендов и артистов","Снимал для блогеров-миллионников и бизнесов разных ниш","Вырастил аккаунты Veles Mall (153,6K) и Al's Barbershop (30,7K) — 2,3M+ просмотров у топ-видео"],"Контент, который смотрят до конца — и который приводит клиентов"],
+matvii:["Матвей Конанков","Оператор-режиссёр · сооснователь",["Снимает 5 лет, из Варшавы","Окончил Варшавский университет по специальности «операторское и режиссёрское искусство»","Начинал с короткометражных фильмов — киношный подход перенёс в рекламу, клипы, ивенты и рилсы","Постановка кадра, работа со светом и с большой командой на площадке","Большой комплект собственной профессиональной техники"],"Сначала смысл, история и референсы — потом камера"],
+clientsM:"Работал с:",bloggers:"+ блогеры-миллионники",
+w0:"03 / Работы",w1:"Цифры, а не обещания",w2:"Проекты команды: подписчики аккаунтов, которые мы вели, просмотры самых популярных видео и артисты и бренды, с которыми снимали. Нажмите на карточку, чтобы посмотреть.",
+stats:[["153,6K","Veles Mall · ТЦ"],["30,7K","Al's Barbershop"],["13,3K","VD Group · стройка"],["12,7K","Green Wood Park"],["2,3M+","просмотров у 4 топ-видео"]],
+tab1:"Работы Тараса",tab2:"Работы Матвея",views:"просмотров",subs:"подписчиков",top1:"TOP 1",top2:"TOP 2",artist:"Артист",brand:"Бренд",soon:"Видео скоро будет здесь",
+c0:"04 / Система",c1:"Контент работает сам на себя",c2:"Каждый ролик даёт охваты и данные. По ним делаем следующий ещё сильнее — и круг раскручивается.",c3:"На выходе бизнес получает узнаваемость и библиотеку топ-контента.",
+ring:["Новые ролики","Охваты","Узнаваемость","Анализ цифр","Топ-форматы"],rc:"Контент работает сам на себя",
+p0:"05 / Процесс",p1:"Как мы работаем",
+steps:[["Стратегия","Анализ бизнеса, аудитории и конкурентов."],["Сценарий","Сценарий к каждому ролику и контент-план на месяц."],["Съёмка","Около 3 съёмочных дней в месяц: свет, звук, кинокамеры."],["Монтаж","Монтаж, цвет, субтитры. Хук, удержание и CTA."],["Анализ","Смотрим цифры и усиливаем то, что работает."]],
+facts:[["Форматы","Reels, TikTok, Shorts и рекламные ролики"],["Языки","UA · RU · PL — под вашу аудиторию"],["Одна команда","От идеи до публикации — один ритм и одна ответственность"]],
+i0:"06 / Что входит",i1:"Всё под ключ",i2:"Вам не нужно искать сценариста, оператора и монтажёра — всё это делаем мы.",
+incl:[["Анализ бизнеса, аудитории и конкурентов","старт"],["Концепция и фишки бренда","старт"],["Сценарии к каждому ролику","всегда"],["Контент-план на месяц","ежемесячно"],["Съёмки на проф. технике","~3 дня"],["Монтаж, цвет, субтитры","включено"],["Трендовые, экспертные и рекламные ролики","микс"],["Анализ результатов и созвон с отчётом","ежемесячно"]],
+k0:"07 / Пакеты",k1:"Выберите формат",k2:"Цены — за один аккаунт и одну языковую версию. Микс форматов (юмор / эксперт / кейсы) подбираем под вас.",
+pk:[["Content Test","850 $","разово","3 видео: скетч · опрос · эксперт",""],["Content Start","2 500 $","/ мес","15 видео в месяц","Самый выгодный"],["Content Growth","5 000 $","/ мес","30 видео в месяц — максимум роста",""]],
+ex:[["TikTok Native","+1 000 $/мес · 10 нативных видео"],["Оплата","ежемесячно, объём — по пакету"],["KPI","фиксируем после 1–2 месяцев"],["Важно","Content Test — проверка производства, без гарантии результата. TikTok Native — игра вдолгую."]],
+y0:"08 / Почему мы",y1:"С нами просто",
+why:[["Одна команда","Стратегия, сценарий, съёмка и монтаж — в одних руках."],["Кино-картинка","Операторы с опытом в клипах, фильмах и рекламе."],["Юмор и истории","Контент, который смотрят до конца: скетчи, тренды, кейсы."],["Работа на результат","Каждый месяц смотрим на цифры и усиливаем то, что приводит клиентов."]],
+f0:"09 / Старт",f1:"Как начать",
+start:["Пишете нам в директ","Созвон: разбираем ваш бизнес и цели","Предлагаем концепцию и фишку","Выбираете пакет — фиксируем объём","Пишем сценарии и контент-план","Снимаем и монтируем первые ролики","Публикуем и смотрим на цифры","Каждый месяц — отчёт и новый план"],
+f2:"Сделаем мясо?",f3:"Пиши в директ — мы не кусаемся.",f4:"Тарас Бакун · Матвей Конанков",f5:"Варшава",f6:"Написать в Instagram",ft:"Камера. Свет. История. Люди."},
+
+pl:{yb:"Tu będzie Twój biznes",topv:"Top filmy wg wyświetleń",p2:"Pięć kroków, jeden timeline montażowy: od strategii do liczb — i od nowa.",hint:"Najedź lub kliknij — pokażemy zasięgi",jk:["Ci dwaj już widzą Twój biznes w kadrze. Pisz!","Twój biznes może być następny w tym sliderze. Serio.","Scenariusz piszemy my. Od Ciebie — jedno słowo: «MIĘSO»","Nie możesz wybrać pakietu? My też długo wybieraliśmy czapkę. Pomożemy!","Nie gryziemy. No, chyba że stek."],fab:"Napisz «MIĘSO»",cbtn:"Napisz na DM",cbtn2:"Policz zasięgi",cp:"Skopiuj e-mail",cpd:"Skopiowano ✓",cb1:"Chcesz, żebyśmy nakręcili też Ciebie?",cb2:"Twój biznes to nasze następne case study",cb3:"Napisz «MIĘSO» — omówimy Twój pomysł",cb4:"Bez wody. Po prostu napisz",ct0:"Kalkulator zasięgów",ct1:"Co dostajesz w miesiąc",ctb:"Chcę ten pakiet",ctn:"Szacunkowy model, nie gwarancja: realne liczby zależą od branży, konta i budżetu reklamowego. Najedź lub kliknij pakiet, aby porównać.",ck:["Filmy","Wyświetlenia w miesiąc","Przez 3 miesiące ze wzrostem","Koszt 1000 wyświetleń"],cper:["jednorazowo","miesięcznie"],cbar:"Wyświetleń na każde $100",cbest:"Content Start daje największy zasięg za każdego dolara",n1:"Kim jesteśmy",n2:"Zespół",n3:"Realizacje",n4:"Proces",n5:"Pakiety",cta:"Napisz",
+hk:"● REC · Produkcja od A do Z · Warszawa",h1:"Robimy mięso",hs:"Rolki, reklamy i content dla biznesu pod klucz: pomysł → zdjęcia → montaż → wynik. Bez wody — samo mięso.",cta2:"Porozmawiajmy",cta3:"Zobacz realizacje",
+mq:["To jest mięso","Bez wody. Samo mięso","Kręcimy mięso. Tniemy zbędne","Świeże mięso co tydzień","Podajemy na gorąco","Surowy kadr — gotowy wynik"],
+a0:"01 / O nas",a1:"Kim jesteśmy",a2:"Produkcja stworzona przez dwóch operatorów z nowym spojrzeniem. Pełny cykl w Warszawie: strategia → zdjęcia → montaż → analiza. Kręcimy rolki, reklamy i content dla restauracji, kawiarni, barberów, salonów, galerii handlowych, budowlanki i usług.",a3:"Zwykły biznes — niezwykła reklama",a4:"Dla biznesu mówiącego po polsku, ukraińsku i rosyjsku",
+pil:[["Camera","Kinowy obraz: optyka i głębia"],["Light","Światło buduje historię"],["Story","Każdy biznes ma swoją fabułę"],["People","Ludzie na planie i w kadrze"]],
+t0:"02 / Zespół",t1:"Dwóch z kamerą",t2:"Kinowe podejście, doświadczenie przy klipach, filmach i reklamach oraz wyniki w liczbach. Dlatego Twój film wyróżnia się w feedzie.",
+taras:["Taras Bakun","Producent Reels, reżyser, operator · współzałożyciel MEAT Production",["7 lat za kamerą: reklamy, teledyski, content dla marek i artystów","Kręcił dla blogerów z milionami obserwujących i firm z różnych branż","Rozwinął konta Veles Mall (153,6K) i Al's Barbershop (30,7K) — 2,3M+ wyświetleń topowych filmów"],"Content oglądany do końca — i przyprowadzający klientów"],
+matvii:["Matvii Konankov","Operator i reżyser · współzałożyciel",["Kręci od 5 lat, z Warszawy","Absolwent Uniwersytetu Warszawskiego na kierunku sztuka operatorska i reżyseria","Zaczynał od filmów krótkometrażowych — kinowe podejście przeniósł do reklam, teledysków, eventów i rolek","Inscenizacja kadru, praca ze światłem i z dużą ekipą na planie","Duży zestaw własnego profesjonalnego sprzętu"],"Najpierw sens, historia i referencje — potem kamera"],
+clientsM:"Współpracował z:",bloggers:"+ blogerzy z milionami obserwujących",
+w0:"03 / Realizacje",w1:"Liczby, nie obietnice",w2:"Projekty zespołu: obserwujący kont, które prowadziliśmy, wyświetlenia najpopularniejszych filmów oraz artyści i marki, z którymi kręciliśmy. Kliknij kartę, aby obejrzeć.",
+stats:[["153,6K","Veles Mall · galeria"],["30,7K","Al's Barbershop"],["13,3K","VD Group · budownictwo"],["12,7K","Green Wood Park"],["2,3M+","wyświetleń 4 topowych filmów"]],
+tab1:"Realizacje Tarasa",tab2:"Realizacje Matviia",views:"wyświetleń",subs:"obserwujących",top1:"TOP 1",top2:"TOP 2",artist:"Artysta",brand:"Marka",soon:"Wideo wkrótce tutaj",
+c0:"04 / System",c1:"Content pracuje sam na siebie",c2:"Każdy film daje zasięgi i dane. Na ich podstawie robimy kolejny jeszcze mocniejszy — i koło się kręci.",c3:"W efekcie firma zyskuje rozpoznawalność i bibliotekę topowego contentu.",
+ring:["Nowe filmy","Zasięgi","Rozpoznawalność","Analiza liczb","Topowe formaty"],rc:"Content pracuje sam na siebie",
+p0:"05 / Proces",p1:"Jak pracujemy",
+steps:[["Strategia","Analiza biznesu, odbiorców i konkurencji."],["Scenariusz","Scenariusz do każdego filmu i plan contentu na miesiąc."],["Zdjęcia","Około 3 dni zdjęciowych w miesiącu: światło, dźwięk, kamery kinowe."],["Montaż","Montaż, kolor, napisy. Hook, utrzymanie uwagi i CTA."],["Analiza","Patrzymy na liczby i wzmacniamy to, co działa."]],
+facts:[["Formaty","Reels, TikTok, Shorts i spoty reklamowe"],["Języki","PL · UA · RU — pod Twoją grupę docelową"],["Jeden zespół","Od pomysłu do publikacji — jeden rytm i jedna odpowiedzialność"]],
+i0:"06 / Co zawiera",i1:"Wszystko pod klucz",i2:"Nie musisz szukać scenarzysty, operatora i montażysty — robimy to wszystko.",
+incl:[["Analiza biznesu, odbiorców i konkurencji","start"],["Koncepcja i wyróżniki marki","start"],["Scenariusz do każdego filmu","zawsze"],["Plan contentu na miesiąc","co miesiąc"],["Zdjęcia na profesjonalnym sprzęcie","~3 dni"],["Montaż, kolor, napisy","w cenie"],["Filmy trendowe, eksperckie i reklamowe","miks"],["Analiza wyników i call z raportem","co miesiąc"]],
+k0:"07 / Pakiety",k1:"Wybierz format",k2:"Ceny za jedno konto i jedną wersję językową. Miks formatów (humor / ekspert / case study) dobieramy pod Ciebie.",
+pk:[["Content Test","850 $","jednorazowo","3 filmy: skecz · sonda · ekspert",""],["Content Start","2 500 $","/ mies.","15 filmów miesięcznie","Najbardziej opłacalny"],["Content Growth","5 000 $","/ mies.","30 filmów miesięcznie — maksimum wzrostu",""]],
+ex:[["TikTok Native","+1 000 $/mies. · 10 natywnych filmów"],["Płatność","co miesiąc, zakres wg pakietu"],["KPI","ustalamy po 1–2 miesiącach"],["Ważne","Content Test to sprawdzenie współpracy, bez gwarancji wyników. TikTok Native to gra na dłuższą metę."]],
+y0:"08 / Dlaczego my",y1:"Z nami jest prosto",
+why:[["Jeden zespół","Strategia, scenariusz, zdjęcia i montaż w jednych rękach."],["Kinowy obraz","Operatorzy z doświadczeniem przy klipach, filmach i reklamach."],["Humor i historie","Content oglądany do końca: skecze, trendy, case study."],["Nastawienie na wynik","Co miesiąc patrzymy na liczby i wzmacniamy to, co przyprowadza klientów."]],
+f0:"09 / Start",f1:"Jak zacząć",
+start:["Piszesz do nas na DM","Call: omawiamy Twój biznes i cele","Proponujemy koncepcję i wyróżnik","Wybierasz pakiet — ustalamy zakres","Piszemy scenariusze i plan contentu","Kręcimy i montujemy pierwsze filmy","Publikujemy i patrzymy na liczby","Co miesiąc raport i nowy plan"],
+f2:"Robimy mięso?",f3:"Napisz na DM — nie gryziemy.",f4:"Taras Bakun · Matvii Konankov",f5:"Warszawa",f6:"Napisz na Instagramie",ft:"Kamera. Światło. Historia. Ludzie."}
+};
+
+const _dummy=0;
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let L="ua",tab="matvii";
+try{const s=localStorage.getItem("meat-lang");if(T[s])L=s}catch(e){}
+
+function card(w,t){
+  const has=!!w.src,label=t[w.tag]||"";
+  const top=w.views?`<div><div class="views">${esc(w.views)}</div><div class="mono" style="color:#EAE5DC">${w.tag==="subs"?t.subs:t.views}</div></div>`:`<div class="mono" style="color:#EAE5DC">● REC</div>`;
+  return `<button class="vc rv" data-id="${w.id}"><div class="bg" style="background:${w.poster?`#000 url('${esc(w.poster)}') center/cover`:`radial-gradient(80% 60% at 50% 45%,${w.hue},#0A0606)`}"></div>
+  <div class="in">${top}<span class="play ${has?"":"soon"}" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M7 4l14 8-14 8z" fill="#fff"/></svg></span>
+  <div><span class="mono" style="color:#EB0403">${esc(label)}</span><h4>${esc(w.client)}</h4></div></div></button>`;
+}
+
+function steak(){
+  const cells=[];let seed=7;const r=()=>(seed=(seed*9301+49297)%233280)/233280;
+  const cx=200,cy=225,S=12;
+  for(let x=60;x<340;x+=S)for(let y=90;y<370;y+=S){
+    const dx=(x-cx)/135,dy=(y-cy)/125,d=dx*dx+dy*dy+Math.sin(x*.05)*.08;
+    if(d<1||(d<1.25&&r()<.35)){const v=r();const c=d>.85?"#910102":v<.25?"#F1E7DE":v<.55?"#EB0403":v<.8?"#c40303":"#6e0101";
+      cells.push(`<rect x="${x}" y="${y}" width="${S-1}" height="${S-1}" fill="${c}" opacity="${c==="#F1E7DE"?.55:1}"/>`)}}
+  const gl=[...Array(8)].map(()=>`<rect x="${40+r()*320}" y="${100+r()*260}" width="${S*(1+Math.floor(r()*3))}" height="${S-1}" fill="#EB0403" opacity=".7"/>`).join("");
+  $("#steak").innerHTML=`<defs><filter id="sh"><feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#000" flood-opacity=".7"/></filter></defs>
+  <g class="swing"><path d="M200 8 v58" stroke="#8A8076" stroke-width="6" fill="none"/>
+  <ellipse cx="200" cy="78" rx="16" ry="22" fill="none" stroke="#cfc6bc" stroke-width="7"/>
+  <g class="px" filter="url(#sh)">${cells.join("")}</g><g class="px" style="animation-delay:1.3s">${gl}</g>
+  <g transform="rotate(-9 220 260)" filter="url(#sh)"><rect x="112" y="212" width="226" height="100" rx="6" fill="#EAE5DC"/>
+  <circle cx="132" cy="234" r="6" fill="#0A0606"/><text x="126" y="301" font-family="IBM Plex Mono" font-size="10" fill="#EB0403">● REC</text>
+  <text x="218" y="274" text-anchor="middle" font-family="Unbounded" font-weight="900" font-size="44" fill="#0A0606" letter-spacing="-2">MEAT</text>
+  <text x="218" y="296" text-anchor="middle" font-family="Unbounded" font-weight="700" font-size="10" fill="#0A0606" letter-spacing="5">PRODUCTION</text>
+  <text x="318" y="238" font-family="Inter" font-weight="700" font-size="13" fill="#0A0606">©</text></g></g>`;
+}
+
+function render(){
+  const t=T[L];document.documentElement.lang=L==="ua"?"uk":L;
+  document.querySelectorAll("[data-t]").forEach(e=>{if(t[e.dataset.t]!=null)e.textContent=t[e.dataset.t]});
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===L));
+  const m=t.mq.map(s=>`<span>${s}</span>`).join("");$("#mq").innerHTML=m+m;
+  $("#pillars").innerHTML=t.pil.map((p,i)=>`<div class="pill rv"><span class="mono">0${i+1}</span><h3>${p[0]}</h3><p>${p[1]}</p></div>`).join("");
+  $("#mates").innerHTML=["taras","matvii"].map(k=>{const p=t[k],ph=PHOTOS[k];return `<article class="mate rv"><div class="ph">${ph.src?`<img src="${esc(ph.src)}" alt="${p[0]}" style="object-position:${ph.pos};transform-origin:${ph.pos};scale:${ph.z}">`:`<b>${p[0][0]}</b>`}<span class="mono">● REC</span></div>
+    <div><h3>${p[0]}</h3><div class="role">${p[1]}</div><ul>${p[2].map(x=>`<li>${x}</li>`).join("")}</ul>${p[3]?`<p class="quote">«${p[3]}»</p>`:""}
+    <div class="mono" style="margin-top:14px">${t.clientsM}</div><div class="chips" style="margin-top:6px">${CLIENTS[k].map(c=>`<span>${esc(c)}</span>`).join("")}${k==="taras"?`<span>${t.bloggers}</span>`:""}</div></div></article>`}).join("");
+  $("#stats").innerHTML=t.stats.concat([["?",t.yb]]).map((s,i)=>{if(s[0]==="?")return `<div class="st yb"><b>?</b><span>${t.yb}</span><div class="mono inf">▶ <i id="inf">0</i> ${t.views}</div></div>`;const tv=TOPV[i]||[];return `<div class="st" tabindex="${tv.length?0:-1}"><b data-c="${s[0]}">${s[0]}</b><span>${s[1]}</span>${tv.length?`<div class="tip"><div class="mono">${t.topv}</div>${tv.map((v,j)=>`<div class="tr2"><em>${j+1}</em><span>${esc(v[0])}</span><b>▶ ${esc(v[1])}</b></div>`).join("")}</div>`:""}</div>`}).join("");
+  document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===tab));
+  $("#rail").innerHTML=WORKS[tab].map(w=>card(w,t)).join("");
+  const n=t.ring.length;
+  $("#ring").innerHTML=`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#EB0403" stroke-width=".6" stroke-dasharray="2 1.4"/></svg>`+
+    t.ring.map((s,i)=>{const a=(i/n)*6.283-1.571;return `<span class="n" style="left:${50+40*Math.cos(a)}%;top:${50+40*Math.sin(a)}%">${s}</span>`}).join("")+`<div class="c"><span class="mk" style="font-size:clamp(22px,3vw,32px)">${t.rc}</span></div>`;
+  $("#ruler").innerHTML=t.steps.map((_,i)=>`<span>00:0${i}:00:00</span>`).join("");$("#steps").innerHTML=`<i id="playhead"></i>`+t.steps.map((s,i)=>`<div class="clip"><span class="mono tcd">● CLIP 0${i+1}</span><div class="n">0${i+1}</div><h3>${s[0]}</h3><p>${s[1]}</p></div>`).join("");
+  $("#facts").innerHTML=t.facts.map(f=>`<div><b>${f[0]}</b><span>${f[1]}</span></div>`).join("");
+  $("#incl").innerHTML=t.incl.map((x,i)=>`<div><span style="font:inherit;color:inherit;white-space:normal"><em>${String(i+1).padStart(2,"0")}</em>${x[0]}</span><span>${x[1]}</span></div>`).join("");
+  const per=x=>100*1000/cpm(x),mx=Math.max(...PK.map(per));
+  $("#pk").innerHTML=t.pk.map((p,i)=>{const k=PK[i],lo=k.v*k.lo,hi=k.v*k.hi,g=k.once?1:3.64;return `<div class="pc rv ${p[4]?"hot":""}" data-i="${i}" tabindex="0">${p[4]?`<span class="badge">${p[4]}</span>`:""}<h3>${p[0]}</h3><div class="price"><span>${p[1]}</span><small>${p[2]}</small></div><p>${p[3]}</p>
+    <span class="hint">${t.hint}</span>
+    <div class="reach"><div class="rg"><div><b>${fmt(lo)}–${fmt(hi)}</b><span>${t.ck[1]}</span></div><div><b>${k.once?"—":fmt(lo*g)+"–"+fmt(hi*g)}</b><span>${t.ck[2]}</span></div>
+    <div><b style="${i===1?"color:var(--red)":""}">~$${cpm(k).toFixed(1).replace(".",",")}</b><span>${t.ck[3]}</span></div><div><b style="${i===1?"color:var(--red)":""}">~${fmt(Math.round(per(k)/100)*100)}</b><span>${t.cbar}</span></div>
+    <div class="rb"><div class="tr"><div class="fl" style="--w:${Math.max(6,per(k)/mx*100)}%"></div></div>${i===1?`<span style="color:var(--paper);font-weight:700">★ ${t.cbest}</span>`:""}</div></div></div>
+    <a class="btn ${p[4]?"red":"ghost"}" href="https://ig.me/m/meat_prod" style="margin-top:auto">${t.cta}</a></div>`}).join("");
+  $("#extra").innerHTML=t.ex.map(e=>`<div><b>${e[0]}</b><p>${e[1]}</p></div>`).join("");
+  const WM=["onset","music","thanks","money"];$("#why").innerHTML=t.why.map((w,i)=>`<div class="pill rv" style="background:#fff8;border-color:#cfc6ba;border-top-color:#EB0403"><img class="masc" src="m-${WM[i]}.webp" alt=""><h3>${w[0]}</h3><p style="color:#3b3430">${w[1]}</p></div>`).join("");
+  $("#start").innerHTML=t.start.map(s=>`<li>${s}</li>`).join("");
+  observe();
+}
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target);if(e.target.id==="stats")count()}}),{threshold:.12});
+function observe(){document.querySelectorAll(".rv:not(.on)").forEach(el=>io.observe(el))}
+function count(){document.querySelectorAll("#stats .st>b").forEach(b=>{const raw=b.dataset.c||"",m=raw.match(/[\d,]+/);if(!m)return;const tgt=parseFloat(m[0].replace(",","."));const dec=m[0].includes(",");let t0=null;
+  const step=ts=>{t0??=ts;const k=Math.min(1,(ts-t0)/1400),v=tgt*(1-Math.pow(1-k,3));b.textContent=raw.replace(m[0],dec?v.toFixed(1).replace(".",","):Math.round(v));if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step)})}
+
+document.querySelectorAll(".lang button").forEach(b=>b.addEventListener("click",()=>{L=b.dataset.l;try{localStorage.setItem("meat-lang",L)}catch(e){}render();document.querySelectorAll(".rv").forEach(x=>x.classList.add("on"))}));
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>{tab=b.dataset.tab;render();$("#rail").scrollTo({left:0})}));
+const rail=$("#rail"),move=d=>rail.scrollBy({left:d*((rail.querySelector(".vc")?.offsetWidth||264)+16),behavior:"smooth"});
+$("#prev").addEventListener("click",()=>move(-1));$("#next").addEventListener("click",()=>move(1));
+rail.addEventListener("keydown",e=>{if(e.key==="ArrowRight")move(1);if(e.key==="ArrowLeft")move(-1)});
+rail.addEventListener("mouseover",e=>{const c=e.target.closest(".vc");if(!c)return;const w=WORKS[tab].find(x=>x.id===c.dataset.id);if(!w||!w.src)return;let v=c.querySelector("video");if(!v){v=document.createElement("video");v.src=w.src;v.muted=true;v.loop=true;v.playsInline=true;c.insertBefore(v,c.querySelector(".in"))}v.play().catch(()=>{})});
+rail.addEventListener("mouseout",e=>{const v=e.target.closest(".vc")?.querySelector("video");if(v)v.pause()});
+const dlg=$("#dlg");
+rail.addEventListener("click",e=>{const c=e.target.closest(".vc");if(!c)return;const w=WORKS[tab].find(x=>x.id===c.dataset.id),t=T[L];if(!w.src&&w.link){window.open(w.link,"_blank");return}
+  $("#dbody").innerHTML=(w.src?`<video src="${esc(w.src)}" controls autoplay playsinline></video>`:`<div class="empty"><div><div class="mk">${esc(w.client)}</div><p class="mono" style="color:#EAE5DC;margin-top:16px">● REC · ${t.soon}</p></div></div>`)+
+  `<div class="cap"><b>${esc(w.client)}</b><span class="mono">${w.views?esc(w.views)+" "+(w.tag==="subs"?t.subs:t.views):esc(t[w.tag]||"")}</span></div>`;
+  try{dlg.showModal()}catch(err){dlg.setAttribute("open","")}});
+const close=()=>{dlg.querySelector("video")?.pause();dlg.close()};
+$("#dx").addEventListener("click",close);dlg.addEventListener("click",e=>{if(e.target===dlg)close()});
+const tct=$("#tct");
+addEventListener("scroll",()=>{const p=scrollY/Math.max(1,document.body.scrollHeight-innerHeight),f=Math.round(p*30*60*25),z=n=>String(n).padStart(2,"0");
+  tct.textContent=`00:${z(Math.floor(f/1500)%60)}:${z(Math.floor(f/25)%60)}:${z(f%25)}`},{passive:true});
+
+
+/* калькулятор охоплень: орієнтовна модель */
+const PK=[{v:3,lo:3000,hi:8000,price:850,once:1},{v:15,lo:10000,hi:25000,price:2500},{v:30,lo:8000,hi:20000,price:5000}];
+let act=1;
+const fmt=n=>n>=1e6?(n/1e6).toFixed(n>=1e7?0:1).replace(".",",")+"M":n>=1e4?Math.round(n/1e3)+"K":n>=1e3?(n/1e3).toFixed(1).replace(".",",")+"K":String(n);
+const cpm=p=>p.price/(p.v*(p.lo+p.hi)/2/1000);
+$("#pk").addEventListener("click",e=>{if(e.target.closest("a"))return;const c=e.target.closest(".pc");if(!c)return;document.querySelectorAll(".pc.open").forEach(x=>x!==c&&x.classList.remove("open"));c.classList.toggle("open")});
+/* toasts: жартівливі плашки з маскотом */
+const TS=[["team","onset"],["work","klas"],["process","idea"],["packages","money"],["contact","thanks"]];
+const toast=$("#toast"),seen=new Set();let tt;
+function showToast(i){const t=T[L];$("#tm").src=`m-${TS[i][1]}.webp`;$("#tt").textContent=t.jk[i];$("#ta").textContent=t.cbtn;toast.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove("show"),8000)}
+$("#tx").addEventListener("click",()=>toast.classList.remove("show"));
+const tio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const i=TS.findIndex(x=>x[0]===e.target.id);if(i<0||seen.has(i))return;seen.add(i);setTimeout(()=>showToast(i),900)}),{threshold:.35});
+TS.forEach(x=>{const el=document.getElementById(x[0]);if(el)tio.observe(el)});
+/* нескінченний лічильник «твій бізнес» */
+let iv=1000;setInterval(()=>{const el=document.getElementById("inf");if(!el)return;iv=iv>8e6?1000:iv*1.045+137;el.textContent=Math.round(iv).toLocaleString("uk-UA")},70);
+/* playhead */
+const proc=$("#process");
+addEventListener("scroll",()=>{const r=proc.getBoundingClientRect(),p=Math.min(1,Math.max(0,(innerHeight*.75-r.top)/(r.height)));proc.style.setProperty("--p",(p*100).toFixed(1)+"%")},{passive:true});
+/* copy email */
+document.querySelector(".copy").addEventListener("click",async e=>{const b=e.currentTarget;try{await navigator.clipboard.writeText("meat.production.contact@gmail.com");b.textContent=T[L].cpd}catch(err){b.textContent="meat.production.contact@gmail.com"}});
+/* floating CTA */
+const fab=$("#fab"),ctc=$("#contact");
+addEventListener("scroll",()=>{const r=ctc.getBoundingClientRect();fab.classList.toggle("show",scrollY>innerHeight*.7&&r.top>innerHeight*.6)},{passive:true});
+steak();render();
+}
+</script>
+</body>
+</html>
